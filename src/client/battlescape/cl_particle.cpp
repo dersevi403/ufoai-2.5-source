@@ -69,7 +69,7 @@ static timedParticle_t timedParticles[MAX_TIMEDPARTICLES];
 static ptlArt_t r_particlesArt[MAX_PTL_ART];
 static int r_numParticlesArt;
 
-#define	V_VECS		((1 << V_FLOAT) | (1 << V_POS) | (1 << V_VECTOR) | (1 << V_COLOR))
+#define	V_VECS		((1u << V_FLOAT) | (1u << V_POS) | (1u << V_VECTOR) | (1u << V_COLOR))
 #define PTL_ONLY_ONE_TYPE		(1<<31)
 #define V_UNTYPED   0x7FFF
 
@@ -138,7 +138,7 @@ static char const* const pc_strings[] = {
 CASSERT(lengthof(pc_strings) == PC_NUM_PTLCMDS);
 
 /** @brief particle commands parameter and types */
-static const int pc_types[PC_NUM_PTLCMDS] = {
+static const unsigned int pc_types[PC_NUM_PTLCMDS] = {
 	0,
 
 	V_UNTYPED, V_UNTYPED, V_UNTYPED,
@@ -421,7 +421,7 @@ static void CL_ParticleFunction (ptl_t* p, ptlCmd_t* cmd)
 				cmd->type = stackType[stackIdx];
 			} else {
 				/* stack reference to element of vector */
-				if ((1 << stackType[stackIdx]) & V_VECS) {
+				if ((1u << stackType[stackIdx]) & V_VECS) {
 					cmd->type = V_FLOAT;
 					cmdData = (float*) stackPtr[stackIdx] + (i - 1);
 				} else {
@@ -487,7 +487,7 @@ static void CL_ParticleFunction (ptl_t* p, ptlCmd_t* cmd)
 				Com_Error(ERR_DROP, "CL_ParticleFunction: stack underflow");
 
 			type = stackType[stackIdx - 1];
-			if (!((1 << type) & V_VECS))
+			if (!((1u << type) & V_VECS))
 				Com_Error(ERR_DROP, "CL_ParticleFunction: bad type '%s' for add (particle %s)", vt_names[stackType[stackIdx - 1]], p->ctrl->name);
 
 			/* float based vector addition */
@@ -512,7 +512,7 @@ static void CL_ParticleFunction (ptl_t* p, ptlCmd_t* cmd)
 				Com_Error(ERR_DROP, "CL_ParticleFunction: stack underflow");
 
 			type = stackType[stackIdx - 1];
-			if (!((1 << type) & V_VECS))
+			if (!((1u << type) & V_VECS))
 				Com_Error(ERR_DROP, "CL_ParticleFunction: bad type '%s' for add (particle %s)", vt_names[stackType[stackIdx - 1]], p->ctrl->name);
 
 			n = type - V_FLOAT + 1;
@@ -600,7 +600,7 @@ static void CL_ParticleFunction (ptl_t* p, ptlCmd_t* cmd)
 				Com_Error(ERR_DROP, "CL_ParticleFunction: stack underflow");
 
 			for (i = 0; i < n; i++) {
-				if (!((1 << stackType[--stackIdx]) & V_VECS))
+				if (!((1u << stackType[--stackIdx]) & V_VECS))
 					Com_Error(ERR_DROP, "CL_ParticleFunction: bad type '%s' for vector creation (particle %s)", vt_names[stackType[stackIdx]], p->ctrl->name);
 				j += stackType[stackIdx] - V_FLOAT + 1;
 			}
@@ -1266,7 +1266,7 @@ static void CL_ParsePtlCmds (const char* name, const char** text)
 							numPtlCmds--;
 							break;
 						}
-					} else if (pp->type >= V_NUM_TYPES || !((1 << pp->type) & pc_types[i])) {
+					} else if (pp->type >= V_NUM_TYPES || !((1u << pp->type) & pc_types[i])) {
 						Com_Printf("CL_ParsePtlCmds: bad type in var \"%s\" specified (particle %s) (ptl type: %i (pc_type: %i), string: %s)\n", token, name, pp->type, pc_types[i], pc_strings[i]);
 						numPtlCmds--;
 						break;
@@ -1274,7 +1274,7 @@ static void CL_ParsePtlCmds (const char* name, const char** text)
 
 					if (len) {
 						/* get single component */
-						if ((1 << pp->type) & V_VECS) {
+						if ((1u << pp->type) & V_VECS) {
 							const int component = (baseComponentToken[len - 1] - '1');
 							/* get the component we want to modify */
 							if (component > 3) {
@@ -1308,7 +1308,7 @@ static void CL_ParsePtlCmds (const char* name, const char** text)
 						if (Q_streq(token, vt_names[j]))
 							break;
 
-					if (j >= V_NUM_TYPES || !((1 << j) & pc_types[i])) {
+					if (j >= V_NUM_TYPES || !((1u << j) & pc_types[i])) {
 						Com_Printf("CL_ParsePtlCmds: bad type \"%s\" specified (particle %s)\n", token, name);
 						numPtlCmds--;
 						break;

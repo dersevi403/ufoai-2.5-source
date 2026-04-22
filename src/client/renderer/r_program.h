@@ -30,7 +30,6 @@ typedef struct r_shader_s {
 	char name[MAX_QPATH];
 } r_shader_t;
 
-#define GL_UNIFORM 1
 #define GL_ATTRIBUTE 2
 /* program variables */
 typedef struct r_progvar_s {

@@ -73,10 +73,10 @@ typedef GLuint glElementIndex_t;
 
 /* internally defined convenience constant */
 /* @todo sanitize those  */
-#define GL_TANGENT_ARRAY -1
-#define GL_NEXT_VERTEX_ARRAY -2
-#define GL_NEXT_NORMAL_ARRAY -3
-#define GL_NEXT_TANGENT_ARRAY -4
+#define GL_TANGENT_ARRAY ((GLenum)-1)
+#define GL_NEXT_VERTEX_ARRAY ((GLenum)-2)
+#define GL_NEXT_NORMAL_ARRAY ((GLenum)-3)
+#define GL_NEXT_TANGENT_ARRAY ((GLenum)-4)
 
 /* multitexture */
 QGL_EXTERN void (APIENTRY* qglActiveTexture)(GLenum texture);

@@ -26,6 +26,17 @@
 
 GLFont glfont_create (const std::string& font_string)
 {
+		globalOutputStream() << "GLFont disabled (no gtkglext on this system): " << font_string << "\n";
+		return GLFont(0, 16);
+}
+
+void glfont_release (GLFont& font)
+{
+	font = GLFont(0, 0);
+}
+
+/*GLFont glfont_create (const std::string& font_string)
+{
 	GLuint font_list_base = glGenLists(256);
 	gint font_height = 0;
 
@@ -61,4 +72,4 @@ void glfont_release (GLFont& font)
 {
 	glDeleteLists(font.getDisplayList(), 256);
 	font = GLFont(0, 0);
-}
+}*/
