@@ -2,4 +2,4 @@
 
 Provided as-is for reproducible builds and personal use only.
 
-Original project: http://ufoai.sf.net
+Original project: http://ufoai.sf.net 
